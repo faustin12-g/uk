@@ -1,5 +1,7 @@
 {% load static %}
 <style>
+
+
   /* Sidebar styling to match navbar */
   .sidebar {
     background: #f8f9fa;
@@ -107,6 +109,29 @@
     padding: 0.25rem;
   }
 
+    .mobile-navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: #fff;
+    padding: 15px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    z-index: 1100; /* Higher than sidebar's z-index */
+    display: none; /* Hidden by default */
+    }
+
+    @media (max-width: 992px) {
+    .mobile-navbar {
+        display: block; /* Show on mobile */
+    }
+    
+    .sidebar {
+        transform: translateX(-100%);
+        z-index: 1050;
+    }
+    }
+
   /* Responsive adjustments */
   @media (max-width: 992px) {
     .sidebar {
@@ -154,21 +179,25 @@
     }
   }
 </style>
-
+<!-- 
+<header class="mobile-navbar d-lg-none">
+    <button class="sidebar-toggle" aria-label="Toggle sidebar">
+      <i class="fas fa-bars"></i>
+    </button>
+</header> -->
 <!-- Sidebar Overlay (for mobile) -->
 <div class="sidebar-overlay"></div>
-
 <!-- Sidebar -->
 <nav class="sidebar">
-  <div class="sidebar-header">
-    <a href="{% url 'admin_dashboard' %}" class="sidebar-brand">
-      <img src="{% static 'images/LOGO.png' %}" alt="Admin Logo">
-      <span>Admin Panel</span>
-    </a>
-    <button class="sidebar-toggle d-lg-none" aria-label="Toggle sidebar">
-        <i class="fas fa-bars"></i>  <!-- Or use fa-times to indicate closing -->
-    </button>
-</div>
+    <div class="sidebar-header">
+        <a href="{% url 'admin_dashboard' %}" class="sidebar-brand">
+          <img src="{% static 'images/LOGO.png' %}" alt="Admin Logo">
+          <span>Admin Panel</span>
+        </a>
+        <button class="sidebar-toggle" aria-label="Toggle sidebar">
+            <i class="fas fa-bars"></i>
+          </button>
+      </div>
   
   <ul class="sidebar-nav">
     <li class="nav-item">
@@ -288,22 +317,76 @@
 </nav>
 
 <!-- JavaScript for mobile sidebar toggle -->
+<!-- JavaScript for mobile sidebar toggle -->
+<!-- JavaScript for mobile sidebar toggle -->
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
-      const sidebar = document.querySelector('.sidebar');
-      const toggleBtn = document.querySelector('.sidebar-toggle');
-      const overlay = document.querySelector('.sidebar-overlay');
-  
-      function toggleSidebar() {
-        sidebar.classList.toggle('show');
-        overlay.classList.toggle('show');
-      }
-  
-      // Toggle sidebar on button click
-      toggleBtn.addEventListener('click', toggleSidebar);
-  
-      // Hide sidebar when clicking outside (on overlay)
-      overlay.addEventListener('click', toggleSidebar);
-    });
-  </script>
-  
+    // More reliable way to ensure DOM is ready
+    function initSidebar() {
+        const toggleButton = document.querySelector('.sidebar-toggle');
+        const sidebar = document.querySelector('.sidebar');
+        const overlay = document.querySelector('.sidebar-overlay');
+        
+        console.log('Sidebar elements:', {
+            toggleButton: !!toggleButton,
+            sidebar: !!sidebar,
+            overlay: !!overlay
+        });
+
+        if (!toggleButton || !sidebar || !overlay) {
+            console.error('Missing required elements for sidebar');
+            return;
+        }
+
+        // Toggle sidebar function
+        const toggleSidebar = () => {
+            console.log('Toggling sidebar');
+            sidebar.classList.toggle('show');
+            overlay.classList.toggle('show');
+            document.body.classList.toggle('no-scroll');
+        };
+
+        // Add event listeners properly
+        toggleButton.addEventListener('click', toggleSidebar);
+        
+        overlay.addEventListener('click', () => {
+            console.log('Closing sidebar via overlay');
+            sidebar.classList.remove('show');
+            overlay.classList.remove('show');
+            document.body.classList.remove('no-scroll');
+        });
+
+        // Close when clicking outside on mobile
+        document.addEventListener('click', (e) => {
+            if (window.innerWidth > 992) return;
+            
+            const isClickInside = sidebar.contains(e.target) || 
+                                 toggleButton.contains(e.target);
+            
+            if (!isClickInside && sidebar.classList.contains('show')) {
+                console.log('Closing sidebar via outside click');
+                sidebar.classList.remove('show');
+                overlay.classList.remove('show');
+                document.body.classList.remove('no-scroll');
+            }
+        });
+    }
+
+    // Try initializing when DOM is ready
+    document.addEventListener('DOMContentLoaded', initSidebar);
+    
+    // Fallback in case DOMContentLoaded already fired
+    if (document.readyState !== 'loading') {
+        initSidebar();
+    }
+
+    // Prevent scrolling when sidebar is open
+    const style = document.createElement('style');
+    style.innerHTML = `
+        body.no-scroll {
+            overflow: hidden;
+            position: fixed;
+            width: 100%;
+        }
+    `;
+    document.head.appendChild(style);
+</script>  
