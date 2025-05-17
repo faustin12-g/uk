@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.6; }
+        .container { max-width: 600px; margin: auto; padding: 20px; }
+        .header { background-color: #4CAF50; color: white; padding: 20px; text-align: center; }
+        .content { padding: 20px; background-color: #f9f9f9; }
+        .footer { margin-top: 20px; padding: 10px; text-align: center; font-size: 0.9em; color: #666; }
+        .response { background: white; padding: 15px; margin: 15px 0; border-left: 4px solid #4CAF50; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h2>Response to Your Contact</h2>
+        </div>
+        <div class="content">
+            <p>Dear {{ contact.name }},</p>
+            <p>Thank you for contacting us. Here is our response to your inquiry:</p>
+            
+            <div class="response">
+                <h4>Your Original Message:</h4>
+                <p><strong>Subject:</strong> {{ contact.subject }}</p>
+                <p>{{ contact.message|linebreaks }}</p>
+                
+                <h4>Our Response:</h4>
+                <p>{{ contact.admin_response|linebreaks }}</p>
+            </div>
+            
+            <p>If you have any further questions, please don't hesitate to contact us again.</p>
+        </div>
+        <div class="footer">
+            <p>Umuturage Kw'isonga (UK)<br>
+            KG 123 St, Kigali, Rwanda<br>
+            Email: support@uk.rw | Phone: +250 123 456 789</p>
+        </div>
+    </div>
+</body>
+</html>

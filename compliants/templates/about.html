@@ -1,0 +1,96 @@
+{% extends "main.html" %}
+
+{% block content %}
+<section class="about-us py-5 bg-light">
+  <div class="container">
+    <!-- Section Header -->
+    <div class="text-center mb-5">
+      <h2 class="display-4 text-primary">About Umuturage Kw’isonga (UK)</h2>
+      <p class="lead text-muted">Bringing Citizens Closer to Public Service</p>
+    </div>
+
+    <!-- Mission Statement -->
+    <div class="row mb-5">
+      <div class="col-md-12">
+        <h3 class="text-primary">Our Mission</h3>
+        <p>
+          At <strong>Umuturage Kw’isonga (UK)</strong>, our mission is to improve citizen satisfaction by providing a reliable, user-friendly platform for raising complaints and feedback about public services. We aim to make sure that no voice goes unheard and that all citizens can easily interact with the institutions that serve them.
+        </p>
+      </div>
+    </div>
+
+    <!-- How It Works -->
+    <div class="row mb-5">
+      <div class="col-md-6">
+        <h4 class="text-secondary">For Citizens</h4>
+        <p>
+          Citizens can register on the platform and submit complaints or suggestions related to public services. Each submission is categorized and routed to the responsible institution.
+        </p>
+        <ul>
+          <li>Submit complaints or feedback easily from web or mobile.</li>
+          <li>Track the status of your submissions in real-time.</li>
+        </ul>
+      </div>
+      <div class="col-md-6">
+        <h4 class="text-secondary">For Government Agencies</h4>
+        <p>
+          Institutions receive categorized submissions directly and can respond through a simple admin dashboard, ensuring timely action and improved accountability.
+        </p>
+        <ul>
+          <li>Quickly access and manage incoming complaints.</li>
+          <li>Respond to citizens and update ticket status.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Why Use UK Platform -->
+    <div class="row text-center mb-5">
+      <div class="col-md-3">
+        <h5 class="text-primary">Better Engagement</h5>
+        <p>Fosters open dialogue between citizens and institutions.</p>
+      </div>
+      <div class="col-md-3">
+        <h5 class="text-primary">Faster Response</h5>
+        <p>Complaints are routed directly to the responsible agency.</p>
+      </div>
+      <div class="col-md-3">
+        <h5 class="text-primary">Transparent Tracking</h5>
+        <p>Citizens can follow up on the status of their submissions.</p>
+      </div>
+      <div class="col-md-3">
+        <h5 class="text-primary">User-Friendly</h5>
+        <p>Accessible and easy to use for citizens of all backgrounds.</p>
+      </div>
+    </div>
+
+    <!-- Vision Section -->
+    <div class="text-center mb-5">
+      <h3 class="text-primary">Our Vision</h3>
+      <p>
+        We envision a Rwanda where every citizen feels empowered to raise their concerns and help improve public service delivery. <strong>UK</strong> bridges the communication gap between government institutions and the people they serve.
+      </p>
+    </div>
+
+    <!-- Our Values Section -->
+    <div class="row mb-5">
+      <div class="col-md-4">
+        <h5 class="text-primary">Accountability</h5>
+        <p>We believe that public institutions should be responsive and responsible to citizens' needs.</p>
+      </div>
+      <div class="col-md-4">
+        <h5 class="text-primary">Transparency</h5>
+        <p>We provide clear and open access to submission statuses and institutional responses.</p>
+      </div>
+      <div class="col-md-4">
+        <h5 class="text-primary">Innovation</h5>
+        <p>We use technology to simplify citizen-institution interaction and promote effective governance.</p>
+      </div>
+    </div>
+
+    <!-- Contact Us Section -->
+    <div class="text-center">
+      <a href="{% url 'contact_support' %}" class="btn btn-primary btn-lg">Contact Us</a>
+    </div>
+  </div>
+</section>
+{% endblock %}

@@ -1,0 +1,94 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="ms-auto" style="width: 80%;">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2>Contact Message #{{ contact.id }}</h2>
+            <a href="{% url 'admin_contact_messages' %}" class="btn btn-secondary">
+                <i class="fas fa-arrow-left"></i> Back to Messages
+            </a>
+        </div>
+
+        <div class="row">
+            <!-- Message Details -->
+            <div class="col-md-6">
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h5>Message Details</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <h6>From:</h6>
+                            <p>{{ contact.name }} &lt;{{ contact.email }}&gt;</p>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <h6>Subject:</h6>
+                            <p>{{ contact.subject }}</p>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <h6>Message:</h6>
+                            <div class="border p-3 bg-light">
+                                {{ contact.message|linebreaks }}
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h6>Received:</h6>
+                                <p>{{ contact.created_at|date:"M d, Y H:i" }}</p>
+                            </div>
+                            {% if contact.responded_at %}
+                            <div class="col-md-6">
+                                <h6>Responded:</h6>
+                                <p>{{ contact.responded_at|date:"M d, Y H:i" }}</p>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Response Form -->
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header bg-primary text-white">
+                        <h5 class="mb-0">Admin Response</h5>
+                    </div>
+                    <div class="card-body">
+                        {% if contact.admin_response %}
+                            <div class="alert alert-success mb-4">
+                                <h6>Previous Response:</h6>
+                                <p>{{ contact.admin_response|linebreaks }}</p>
+                                <small class="text-muted">
+                                    Last updated: {{ contact.updated_at|date:"M d, Y H:i" }}
+                                </small>
+                            </div>
+                        {% endif %}
+                        
+                        <form method="post">
+                            {% csrf_token %}
+                            <div class="mb-3">
+                                <label for="response" class="form-label">Your Response</label>
+                                <textarea name="response" id="response" rows="5" class="form-control" 
+                                        required>{% if contact.admin_response %}{{ contact.admin_response }}{% endif %}</textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-paper-plane"></i> Send Response
+                            </button>
+                            
+                            {% if contact.status != 'responded' %}
+                            <button type="submit" name="mark_responded" class="btn btn-success ms-2">
+                                <i class="fas fa-check-circle"></i> Mark as Responded
+                            </button>
+                            {% endif %}
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>    
+</div>
+{% endblock %}

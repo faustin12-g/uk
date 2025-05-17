@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.6; }
+        .container { max-width: 600px; margin: auto; padding: 20px; }
+        .header { background-color: #FFD700; padding: 20px; text-align: center; }
+        .content { padding: 20px; background-color: #FFF9E6; }
+        .footer { margin-top: 20px; padding: 10px; text-align: center; font-size: 0.9em; color: #666; }
+        .button { 
+            display: inline-block; 
+            padding: 12px 24px; 
+            background-color: #FFC107; 
+            color: #333; 
+            text-decoration: none; 
+            border-radius: 4px; 
+            font-weight: bold; 
+            margin: 15px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h2>How Did We Do?</h2>
+        </div>
+        <div class="content">
+            <p>Dear {{ user.name }},</p>
+            
+            <p>We hope your complaint (#{{ complaint.id }}) about <strong>{{ complaint.title }}</strong> 
+            was resolved to your satisfaction.</p>
+            
+            <p>We'd appreciate it if you could take a moment to share your experience:</p>
+            
+            <p style="text-align: center;">
+                <a href="{{ survey_url }}" class="button">
+                    Complete Quick Survey
+                </a>
+            </p>
+            
+            <p>Your feedback helps us improve our services for all citizens.</p>
+            
+            <p>Thank you,<br>
+            <strong>{{ settings.SITE_NAME }} Team</strong></p>
+        </div>
+        <div class="footer">
+            <p>Umuturage Kw'isonga (UK)<br>
+            KG 123 St, Kigali, Rwanda</p>
+        </div>
+    </div>
+</body>
+</html>

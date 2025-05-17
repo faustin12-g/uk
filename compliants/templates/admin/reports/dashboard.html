@@ -1,0 +1,123 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container-fluid">
+        <div class="ms-auto" style="width: 80%;">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2>Reports Dashboard</h2>
+            <a href="{% url 'export_reports' %}" class="btn btn-primary">
+                <i class="fas fa-download"></i> Export All Data
+            </a>
+        </div>
+
+        <div class="row mb-4">
+            <div class="col-md-3">
+                <div class="card text-white bg-primary">
+                    <div class="card-body">
+                        <h5 class="card-title">Pending Complaints</h5>
+                        <h2>{{ pending_complaints_count }}</h2>
+                        <a href="{% url 'complaint_reports' %}" class="text-white">View Details</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card text-white bg-success">
+                    <div class="card-body">
+                        <h5 class="card-title">Resolved Complaints</h5>
+                        <h2>{{ resolved_complaints_count }}</h2>
+                        <a href="{% url 'complaint_reports' %}" class="text-white">View Details</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card text-white bg-info">
+                    <div class="card-body">
+                        <h5 class="card-title">Total Agencies</h5>
+                        <h2>{{ total_agencies }}</h2>
+                        <a href="{% url 'agency_reports' %}" class="text-white">View Details</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card text-white bg-warning">
+                    <div class="card-body">
+                        <h5 class="card-title">Active Users</h5>
+                        <h2>{{ active_users }}</h2>
+                        <a href="{% url 'user_reports' %}" class="text-white">View Details</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <ul class="nav nav-tabs card-header-tabs">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#complaints" data-bs-toggle="tab">Complaints</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#agencies" data-bs-toggle="tab">Agencies</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#users" data-bs-toggle="tab">Users</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="card-body">
+                <div class="tab-content">
+                    <div class="tab-pane active" id="complaints">
+                        <h5>Recent Complaint Activity</h5>
+                        <canvas id="complaintsChart" height="100"></canvas>
+                    </div>
+                    <div class="tab-pane" id="agencies">
+                        <h5>Agency Performance</h5>
+                        <p>View detailed agency reports</p>
+                        <i class="fas fa-chart-pie text-danger" id="agenciesChart" height="100">Comming Soon</i>
+                    </div>
+                    <div class="tab-pane" id="users">
+                        <h5>User Engagement</h5>
+                        <p>View detailed user reports</p>
+                        <i class="fas fa-chart-bar text-danger" id="usersChart" height="100">Comming Soon</i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>    
+</div>
+
+<!-- Chart.js for visualization -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    // Complaints chart
+    const ctx = document.getElementById('complaintsChart').getContext('2d');
+    new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+            datasets: [{
+                label: 'Complaints Submitted',
+                data: [12, 19, 3, 5, 2, 3],
+                backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                borderColor: 'rgba(54, 162, 235, 1)',
+                borderWidth: 1
+            }, {
+                label: 'Complaints Resolved',
+                data: [8, 15, 2, 4, 1, 2],
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+    
+    
+</script>
+{% endblock %}

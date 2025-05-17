@@ -1,0 +1,32 @@
+body.light-mode {
+    background-color: #f8f9fa;
+    color: #212529;
+  }
+  
+  body.dark-mode {
+    background-color: #212529;
+    color: #f8f9fa;
+  }
+  
+  .navbar-admin {
+    background-color: #0d6efd;
+    color: white;
+  }
+  
+  .navbar-admin .navbar-brand h1 {
+    color: #f8f9fa;
+  }
+  
+  .navbar-admin .nav-link {
+    color: #f8f9fa;
+  }
+  
+  .navbar-admin .btn-outline-secondary {
+    color: #f8f9fa;
+    border-color: #f8f9fa;
+  }
+  
+  .navbar-admin .btn-outline-secondary:hover {
+    background-color: #f8f9fa;
+    color: #0d6efd;
+  }

@@ -1,0 +1,110 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="ms-auto" style="width: 80%;">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2>Complaint #{{ complaint.id }} - {{ complaint.title }}</h2>
+            <a href="{% url 'admin_dashboard' %}" class="btn btn-secondary">
+                <i class="fas fa-arrow-left"></i> Back to Dashboard
+            </a>
+        </div>
+
+        <div class="row">
+            <!-- Complaint Details -->
+            <div class="col-md-6">
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h5>Complaint Details</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <h6>Description:</h6>
+                            <p>{{ complaint.description }}</p>
+                        </div>
+                        
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <h6>Category:</h6>
+                                <p>{{ complaint.category.name }}</p>
+                            </div>
+                            <div class="col-md-6">
+                                <h6>Status:</h6>
+                                <span class="badge 
+                                    {% if complaint.status == 'resolved' %}bg-success
+                                    {% elif complaint.status == 'pending' %}bg-warning
+                                    {% else %}bg-secondary{% endif %}">
+                                    {{ complaint.get_status_display }}
+                                </span>
+                            </div>
+                        </div>
+                        
+                        {% if complaint.document %}
+                        <div class="mb-3">
+                            <h6>Attachment:</h6>
+                            <a href="{{ complaint.document.url }}" class="btn btn-sm btn-outline-primary" target="_blank">
+                                <i class="fas fa-file-download"></i> Download File
+                            </a>
+                        </div>
+                        {% endif %}
+                        
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h6>Submitted:</h6>
+                                <p>{{ complaint.created_at|date:"M d, Y H:i" }}</p>
+                            </div>
+                            {% if complaint.resolved_at %}
+                            <div class="col-md-6">
+                                <h6>Resolved:</h6>
+                                <p>{{ complaint.resolved_at|date:"M d, Y H:i" }}</p>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Response Form -->
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header bg-primary text-white">
+                        <h5 class="mb-0">Admin Response</h5>
+                    </div>
+                    <div class="card-body">
+                        {% if complaint.admin_response %}
+                            <div class="alert alert-info mb-4">
+                                <h6>Previous Response:</h6>
+                                <p>{{ complaint.admin_response|linebreaks }}</p>
+                                <small class="text-muted">
+                                    Last updated: {{ complaint.updated_at|date:"M d, Y H:i" }}
+                                </small>
+                            </div>
+                        {% endif %}
+                        
+                        <form method="post">
+                            {% csrf_token %}
+                            <div class="mb-3">
+                                {{ form.status.label_tag }}
+                                {{ form.status }}
+                            </div>
+                            <div class="mb-3">
+                                {{ form.admin_response.label_tag }}
+                                {{ form.admin_response }}
+                            </div>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-paper-plane"></i> Submit Response
+                            </button>
+                            
+                            {% if complaint.status != 'resolved' %}
+                            <button type="submit" name="mark_resolved" class="btn btn-success ms-2">
+                                <i class="fas fa-check-circle"></i> Mark as Resolved
+                            </button>
+                            {% endif %}
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>    
+</div>
+{% endblock %}

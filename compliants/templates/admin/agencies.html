@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="ms-auto" style="width: 80%;">
+
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2>Manage Agencies</h2>
+            <a href="{% url 'admin_agency_add' %}" class="btn btn-primary">
+                <i class="fas fa-plus"></i> Add New Agency
+            </a>
+        </div>
+
+        <div class="card">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for agency in agencies %}
+                            <tr>
+                                <td>{{ agency.id }}</td>
+                                <td>{{ agency.name }}</td>
+                                <td>{{ agency.email }}</td>
+                                <td>
+                                    <span class="badge bg-{% if agency.is_active %}success{% else %}danger{% endif %}">
+                                        {% if agency.is_active %}Active{% else %}Inactive{% endif %}
+                                    </span>
+                                </td>
+                                <td>
+                                    <a href="{% url 'admin_agency_edit' agency.id %}" class="btn btn-sm btn-info">
+                                        <i class="fas fa-edit"></i> Edit
+                                    </a>
+
+                                    <!-- Trigger delete modal -->
+                                    <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal{{ agency.id }}">
+                                        <i class="fas fa-trash"></i> Delete
+                                    </button>
+
+                                    <!-- Delete Confirmation Modal -->
+                                    <div class="modal fade" id="deleteModal{{ agency.id }}" tabindex="-1" aria-labelledby="deleteModalLabel{{ agency.id }}" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="deleteModalLabel{{ agency.id }}">Confirm Delete</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    Are you sure you want to delete the agency "<strong>{{ agency.name }}</strong>"?
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <form action="{% url 'admin_agency_delete' agency.id %}" method="POST">
+                                                        {% csrf_token %}
+                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                                        <button type="submit" class="btn btn-danger">Delete</button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- End Modal -->
+                                </td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="5" class="text-center">No agencies found</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>    
+</div>
+{% endblock %}

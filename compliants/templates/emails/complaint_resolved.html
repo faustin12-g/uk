@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+        }
+        .email-container {
+            max-width: 600px;
+            margin: 20px auto;
+            background-color: #fff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .header {
+            background-color: #4CAF50;
+            padding: 25px;
+            text-align: center;
+            border-bottom: 4px solid #388E3C;
+        }
+        .logo-placeholder {
+            height: 70px;
+            margin-bottom: 15px;
+        }
+        .content {
+            padding: 30px;
+            background-color: #E8F5E9;
+        }
+        .complaint-details {
+            background-color: white;
+            border-left: 4px solid #4CAF50;
+            padding: 15px;
+            margin: 20px 0;
+        }
+        .response {
+            background-color: #F1F8E9;
+            border-left: 4px solid #81C784;
+            padding: 15px;
+            margin: 20px 0;
+        }
+        .footer {
+            background-color: #333;
+            color: #fff;
+            padding: 25px;
+            text-align: center;
+            font-size: 13px;
+        }
+        .footer a {
+            color: #FFD700;
+            text-decoration: none;
+        }
+        h2, h4 {
+            margin-top: 0;
+        }
+        .reference-id {
+            font-weight: bold;
+            color: #2E7D32;
+        }
+    </style>
+</head>
+<body>
+    <div class="email-container">
+        <div class="header">
+            <div class="logo-placeholder">
+                <!-- Replace with your logo -->
+                <img src="https://example.com/logo.png" alt="Umuturage Kw'isonga (UK)" width="180">
+            </div>
+            <h2>Complaint Resolved</h2>
+        </div>
+        
+        <div class="content">
+            <p>Dear {{ user.name }},</p>
+            <p>We're pleased to inform you that your complaint has been <strong>successfully resolved</strong>. You can log into your account to view the resolution in detail.</p>
+            
+            <div class="complaint-details">
+                <p><strong>Complaint Details:</strong></p>
+                <ul>
+                    <li><span class="reference-id">Reference ID:</span> #{{ complaint.id }}</li>
+                    <li><strong>Title:</strong> {{ complaint.title }}</li>
+                    <li><strong>Category:</strong> {{ complaint.category.name }}</li>
+                    <li><strong>Submitted:</strong> {{ complaint.created_at|date:"F j, Y H:i" }}</li>
+                </ul>
+            </div>
+
+            <div class="response">
+                <h4>Our Response</h4>
+                {{ complaint.admin_response|linebreaks }}
+            </div>
+            
+            <p>If you have any further questions or concerns, please don't hesitate to contact us.</p>
+        </div>
+        
+        <div class="footer">
+            <p><strong>Umuturage Kw'isonga (UK)</strong></p>
+            <p>KG 123 St, Kigali, Rwanda<br>
+            Email: <a href="mailto:complaints@uk.rw">complaints@uk.rw</a> | 
+            Phone: +250 123 456 789</p>
+            
+            <p style="margin-top: 15px; font-size: 12px; color: #aaa;">
+                &copy; 2025 Umuturage Kw'isonga. All rights reserved.
+            </p>
+        </div>
+    </div>
+</body>
+</html>

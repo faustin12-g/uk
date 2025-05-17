@@ -1,0 +1,28 @@
+body{
+    background: aquamarine;
+}
+
+.spinner-wrapper {
+    background-color: #fff;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.2s ease;
+}
+
+.spinner-border {
+    width: 5rem !important;
+    height: 5rem !important;
+    border-width: 0.5rem !important;
+}
+.spinner-border .spinner-border-sm{
+    height: 20px !important;
+    width: 20px !important;
+    border-width : 3px !important;
+}

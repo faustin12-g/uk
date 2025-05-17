@@ -1,0 +1,73 @@
+{% extends "main.html" %}
+
+{% block content %}
+<section class="py-5 bg-light">
+  <div class="container" data-aos="fade-up">
+
+    <h5 class="text-muted text-center mb-3">
+      {{ greeting }}, {{ user.username|default:user.username|title }}! We're excited to see your feedback.
+    </h5>
+    
+
+
+    <!-- Title -->
+    <h2 class="mb-4 text-center text-primary fw-bold">Your Complaints</h2>
+
+    <!-- Search and Add Button Row -->
+    <div class="row align-items-center mb-4">
+      <div class="col-md-8 col-12 mb-2 mb-md-0">
+        <input type="text" id="search-input" name="q" 
+               class="form-control" 
+               placeholder="Search complaints..." 
+               value="{{ request.GET.q }}">
+      </div>
+      <div class="col-md-4 col-12 text-md-end text-center">
+        <a href="{% url 'submit_complaint' %}" class="btn btn-primary w-100 w-md-auto">
+          + Add Complaint
+        </a>
+      </div>
+    </div>
+
+    <!-- Complaints Table -->
+    <div class="table-responsive">
+      <table class="table table-hover table-bordered align-middle bg-white shadow-sm rounded">
+        <thead class="table-primary text-center">
+          <tr>
+            <th>Title</th>
+            <th>Category</th>
+            <th>Status</th>
+            <th>Agency</th>
+            <th>Response</th>
+            
+            <th>Update</th>
+            <th>Remove</th>
+          </tr>
+        </thead>
+        <tbody id="complaint-table-body">
+          {% include 'complaints/_complaint_table.html' %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- AJAX Search Script -->
+<script>
+  const searchInput = document.getElementById("search-input");
+  const tableBody = document.getElementById("complaint-table-body");
+
+  searchInput.addEventListener("keyup", function () {
+    const query = this.value;
+
+    fetch(`?q=${encodeURIComponent(query)}`, {
+      headers: {
+        "x-requested-with": "XMLHttpRequest"
+      }
+    })
+    .then(response => response.json())
+    .then(data => {
+      tableBody.innerHTML = data.html;
+    });
+  });
+</script>
+{% endblock %}

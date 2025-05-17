@@ -1,0 +1,309 @@
+{% load static %}
+<style>
+  /* Sidebar styling to match navbar */
+  .sidebar {
+    background: #f8f9fa;
+    min-height: 100vh;
+    box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+    transition: all 0.3s;
+    position: fixed;
+    width: 250px;
+    z-index: 1000;
+  }
+
+  .sidebar-header {
+    padding: 1.5rem 1rem;
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+    background: #ffffff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .sidebar-brand {
+    color: #121212;
+    font-weight: 700;
+    text-decoration: none;
+    font-size: 1.25rem;
+    display: flex;
+    align-items: center;
+  }
+
+  .sidebar-brand img {
+    height: 30px;
+    margin-right: 10px;
+  }
+
+  .sidebar-nav {
+    padding: 0;
+    list-style: none;
+    height: calc(100vh - 50px);
+    overflow-y: auto;
+  }
+
+  .nav-item {
+    position: relative;
+  }
+
+  .nav-link {
+    color: #151414;
+    padding: 0.75rem 1.5rem;
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    transition: all 0.3s;
+    font-weight: 500;
+    border-left: 3px solid transparent;
+  }
+
+  .nav-link:hover, .nav-link.active {
+    color: #ffb81c;
+    background: rgba(255, 184, 28, 0.1);
+    border-left-color: #ffb81c;
+  }
+
+  .nav-link i {
+    margin-right: 10px;
+    width: 20px;
+    text-align: center;
+  }
+
+  .nav-dropdown {
+    list-style: none;
+    padding: 0;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+  }
+
+  .nav-dropdown.show {
+    max-height: 500px;
+  }
+
+  .nav-dropdown .nav-link {
+    padding-left: 3rem;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+  }
+
+  .dropdown-toggle::after {
+    display: inline-block;
+    margin-left: auto;
+    transition: transform 0.3s;
+  }
+
+  .dropdown-toggle[aria-expanded="true"]::after {
+    transform: rotate(90deg);
+  }
+
+  /* Mobile Toggle Button (in sidebar header) */
+  .sidebar-toggle {
+    display: none;
+    background: none;
+    border: none;
+    color: #151414;
+    font-size: 1.25rem;
+    cursor: pointer;
+    padding: 0.25rem;
+  }
+
+  /* Responsive adjustments */
+  @media (max-width: 992px) {
+    .sidebar {
+      transform: translateX(-100%);
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100vh;
+      z-index: 1050;
+    }
+    
+    .sidebar.show {
+      transform: translateX(0);
+    }
+    
+    .sidebar-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0,0,0,0.5);
+      z-index: 1040;
+      display: none;
+    }
+    
+    .sidebar-overlay.show {
+      display: block;
+    }
+
+    .sidebar-toggle {
+      display: block;
+    }
+  }
+
+  /* Main content adjustment */
+  .main-content {
+    margin-left: 250px;
+    transition: all 0.3s;
+  }
+
+  @media (max-width: 992px) {
+    .main-content {
+      margin-left: 0;
+    }
+  }
+</style>
+
+<!-- Sidebar Overlay (for mobile) -->
+<div class="sidebar-overlay"></div>
+
+<!-- Sidebar -->
+<nav class="sidebar">
+  <div class="sidebar-header">
+    <a href="{% url 'admin_dashboard' %}" class="sidebar-brand">
+      <img src="{% static 'images/LOGO.png' %}" alt="Admin Logo">
+      <span>Admin Panel</span>
+    </a>
+    <button class="sidebar-toggle d-lg-none" aria-label="Toggle sidebar">
+        <i class="fas fa-bars"></i>  <!-- Or use fa-times to indicate closing -->
+    </button>
+</div>
+  
+  <ul class="sidebar-nav">
+    <li class="nav-item">
+      <a href="{% url 'admin_dashboard' %}" class="nav-link {% if request.resolver_match.url_name == 'admin_dashboard' %}active{% endif %}">
+        <i class="fas fa-tachometer-alt"></i>
+        <span>Dashboard</span>
+      </a>
+    </li>
+    
+    <li class="nav-item">
+      <a href="{% url 'complaint_list' %}" class="nav-link {% if request.resolver_match.url_name == 'complaint_list' %}active{% endif %}">
+        <i class="fas fa-exclamation-circle"></i>
+        <span>All Complaints</span>
+        <span class="badge bg-danger ms-auto">{{ pending_complaints_count }}</span>
+      </a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-link dropdown-toggle" data-bs-toggle="collapse" href="#categoriesCollapse">
+        <i class="fas fa-list-alt"></i>
+        <span>Categories</span>
+      </a>
+      <ul id="categoriesCollapse" class="nav-dropdown collapse {% if 'category' in request.resolver_match.url_name %}show{% endif %}">
+        <li class="nav-item">
+            <a href="{% url 'admin_categories' %}" 
+               class="nav-link {% if request.resolver_match.url_name == 'admin_categories' %}active{% endif %}">
+              <i class="fas fa-list"></i>
+              <span>Manage Categories</span>
+            </a>
+          </li>
+        <li class="nav-item">
+          <a href="{% url 'admin_category_add' %}" class="nav-link {% if request.resolver_match.url_name == 'admin_category_add' %}active{% endif %}">
+            <i class="fas fa-plus"></i>
+            <span>Add New</span>
+          </a>
+        </li>
+      </ul>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-link dropdown-toggle" data-bs-toggle="collapse" href="#agenciesCollapse">
+        <i class="fas fa-building"></i>
+        <span>Agencies</span>
+      </a>
+      <ul id="agenciesCollapse" class="nav-dropdown collapse {% if 'agency' in request.resolver_match.url_name %}show{% endif %}">
+        <li class="nav-item">
+          <a href="{% url 'admin_agencies' %}" class="nav-link {% if request.resolver_match.url_name == 'admin_agencies' %}active{% endif %}">
+            <i class="fas fa-list"></i>
+            <span>All Agencies</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="{% url 'admin_agency_add' %}" class="nav-link {% if request.resolver_match.url_name == 'admin_agency_add' %}active{% endif %}">
+            <i class="fas fa-plus"></i>
+            <span>Add New</span>
+          </a>
+        </li>
+      </ul>
+    </li>
+    
+    <li class="nav-item">
+      <a href="{% url 'admin_users' %}" class="nav-link {% if request.resolver_match.url_name == 'admin_users' %}active{% endif %}">
+        <i class="fas fa-users"></i>
+        <span>User Management</span>
+      </a>
+    </li>
+    
+    <li class="nav-item">
+      <a href="{% url 'admin_reports' %}" class="nav-link {% if request.resolver_match.url_name == 'admin_reports' %}active{% endif %}">
+        <i class="fas fa-chart-bar"></i>
+        <span>Reports</span>
+      </a>
+    </li>
+    
+    <li class="nav-item mt-auto">
+      <a href="{% url 'update-user' %}" class="nav-link {% if request.resolver_match.url_name == 'update-user' %}active{% endif %}">
+        <i class="fas fa-cog"></i>
+        <span>Settings</span>
+      </a>
+    </li>
+
+    <li class="nav-item">
+        <a class="nav-link dropdown-toggle" data-bs-toggle="collapse" href="#contactsCollapse">
+          <i class="fas fa-envelope"></i>
+          <span>Contact Messages</span>
+          {% with unresponded_count=contact_messages.count %}
+            {% if unresponded_count > 0 %}
+              <span class="badge bg-danger ms-auto">{{ unresponded_count }}</span>
+            {% endif %}
+          {% endwith %}
+        </a>
+        <ul id="contactsCollapse" class="nav-dropdown collapse {% if 'contact' in request.resolver_match.url_name %}show{% endif %}">
+          <li class="nav-item">
+            <a href="{% url 'admin_contact_messages' %}" 
+               class="nav-link {% if request.resolver_match.url_name == 'admin_contact_messages' %}active{% endif %}">
+              <i class="fas fa-inbox"></i>
+              <span>All Messages</span>
+              {% if unresponded_messages_count > 0 %}
+                <span class="badge bg-danger ms-auto">{{ unresponded_messages_count }}</span>
+              {% endif %}
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="{% url 'admin_unresponded_contacts' %}" 
+               class="nav-link {% if request.resolver_match.url_name == 'admin_unresponded_contacts' %}active{% endif %}">
+              <i class="fas fa-exclamation-circle"></i>
+              <span>Unresponded</span>
+              {% if unresponded_messages_count > 0 %}
+                <span class="badge bg-danger ms-auto">{{ unresponded_messages_count }}</span>
+              {% endif %}
+            </a>
+          </li>
+        </ul>
+      </li>
+    
+  </ul>
+</nav>
+
+<!-- JavaScript for mobile sidebar toggle -->
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const sidebar = document.querySelector('.sidebar');
+      const toggleBtn = document.querySelector('.sidebar-toggle');
+      const overlay = document.querySelector('.sidebar-overlay');
+  
+      function toggleSidebar() {
+        sidebar.classList.toggle('show');
+        overlay.classList.toggle('show');
+      }
+  
+      // Toggle sidebar on button click
+      toggleBtn.addEventListener('click', toggleSidebar);
+  
+      // Hide sidebar when clicking outside (on overlay)
+      overlay.addEventListener('click', toggleSidebar);
+    });
+  </script>
+  

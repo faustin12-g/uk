@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="ms-auto" style="width: 80%;">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2>Agencies Management</h2>
+            <a href="{% url 'admin_reports' %}" class="btn btn-secondary">
+                <i class="fas fa-arrow-left"></i> Back to Dashboard
+            </a>
+        </div>
+
+        <div class="alert alert-info">
+            <strong>Pending Complaints:</strong> {{ pending_complaints_count }}
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <h5>All Agencies</h5>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Phone</th>
+                                <th>Address</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for agency in agencies %}
+                            <tr>
+                                <td>{{ agency.id }}</td>
+                                <td>{{ agency.name }}</td>
+                                <td>{{ agency.email }}</td>
+                                <td>{{ agency.phone }}</td>
+                                <td>{{ agency.address }}</td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="5" class="text-center">No agencies found.</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
