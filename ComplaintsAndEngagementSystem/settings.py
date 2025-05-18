@@ -32,6 +32,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -115,7 +116,7 @@ EMAIL_HOST_PASSWORD = 'zdqw kniv siqy cnsx'  # Consider using environment variab
 DEFAULT_FROM_EMAIL = 'nshimiefaustinpeace@gmail.com'
 SITE_NAME = 'Your Complaint System'
 
-
+SITE_URL = 'http://127.0.0.1:8000'
 # Internationalization
 # https://docs.djangoproject.com/en/5.2/topics/i18n/
 
@@ -146,3 +147,35 @@ AUTH_USER_MODEL = 'compliants.User'
 
 LOGIN_REDIRECT_URL = 'complaint_list'
 LOGOUT_REDIRECT_URL = 'home'
+
+
+JAZZMIN_SETTINGS = {
+    "site_title": "Super Admin",
+    "site_header": "Library",
+    "site_brand": "Library",
+
+    "welcome_sign": "Welcome UK",
+
+    "copyright": "Acme uk",
+
+
+
+
+    "topmenu_links": [
+
+        {"name": "Home",  "url": "admin:index", "permissions": ["auth.view_user"]},
+
+        {"name": "Support", "url": "https://127.0.0.1:8000/contact", "new_window": True},
+
+        {"model": "auth.User"},
+
+        {"app": "uk"},
+    ],
+
+    "usermenu_links": [
+        {"name": "Support", "url": "https:127.0.0.1:8000/contact", "new_window": True},
+        {"model": "auth.user"}
+    ],
+
+
+}

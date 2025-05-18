@@ -27,7 +27,7 @@ class UserForm(ModelForm):
 class ComplaintForm(forms.ModelForm):
     class Meta:
         model = Complaint
-        fields = ['title', 'description', 'category', 'document']
+        fields = ['title', 'description', 'category', 'agency','document']
 
 class CategoryForm(forms.ModelForm):
     class Meta:
@@ -90,7 +90,7 @@ class ContactForm(forms.ModelForm):
         model = Contact
         fields = ['name', 'email', 'subject', 'message']
         widgets = {
-            'message': forms.Textarea(attrs={'rows': 5}),
+            'message': forms.Textarea(attrs={'rows': 5} ),
         }
 
 

@@ -21,7 +21,7 @@ import debug_toolbar
 from ComplaintsAndEngagementSystem import settings
 from ComplaintsAndEngagementSystem.settings import MEDIA_ROOT, MEDIA_URL
 
-admin.site.site_header = "PropApp"
+admin.site.site_header = "Umuturage Kw'isonga"
 admin.site.index_title = "Admin dashboard"
 urlpatterns = [
     path('admin/', admin.site.urls, name="admin"),

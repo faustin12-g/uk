@@ -1,6 +1,18 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<div class="d-block d-lg-none p-4 text-center" style="min-height: 100vh; display: flex; align-items: center; justify-content: center;">
+    <div class="alert alert-warning" style="max-width: 500px;">
+        <h3><i class="fas fa-exclamation-triangle me-2"></i> Small Screen Detected</h3>
+        <p class="lead">This dashboard is optimized for computer or tablet use.</p>
+        <p>Please access this page from a device with a larger screen for the best experience.</p>
+        <div class="mt-4">
+            <a href="/" class="btn btn-primary">
+                <i class="fas fa-home me-2"></i> Return to Homepage
+            </a>
+        </div>
+    </div>
+</div>
 <div class="d-flex" style="min-height: 100vh;">
     <!-- Sidebar Section -->
     <div class="bg-light border-end" style="width: 250px;">
@@ -203,6 +215,8 @@
     </div>
 </div>
 
+
+
 <!-- Chart.js Scripts -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
@@ -230,5 +244,7 @@
             }]
         }
     });
+
+
 </script>
 {% endblock %}

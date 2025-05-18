@@ -1,99 +1,23 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            line-height: 1.6;
-            color: #333;
-            margin: 0;
-            padding: 0;
-        }
-        .email-container {
-            max-width: 600px;
-            margin: 0 auto;
-            background-color: #fff;
-            border: 1px solid #e0e0e0;
-        }
-        .header {
-            background-color: #FFD700; /* Yellow color */
-            padding: 20px;
-            text-align: center;
-            border-bottom: 3px solid #FFC000;
-        }
-        .logo-placeholder {
-            height: 80px;
-            margin-bottom: 15px;
-            /* Add your logo as background image or img tag */
-        }
-        .content {
-            padding: 25px;
-            background-color: #FFF9E6; /* Light yellow background */
-        }
-        .button {
-            display: inline-block;
-            padding: 12px 24px;
-            background-color: #FFC107;
-            color: #333 !important;
-            text-decoration: none;
-            border-radius: 4px;
-            font-weight: bold;
-            margin: 15px 0;
-        }
-        .footer {
-            background-color: #333;
-            color: #fff;
-            padding: 20px;
-            text-align: center;
-            font-size: 12px;
-        }
-        .footer a {
-            color: #FFD700;
-            text-decoration: none;
-        }
-        .expiry-note {
-            color: #D32F2F;
-            font-weight: bold;
-        }
-    </style>
-</head>
-<body>
-    <div class="email-container">
-        <div class="header">
-            <div class="logo-placeholder">
-                <!-- Replace with your logo -->
-                <img src="https://example.com/logo.png" alt="Umuturage Kw'isonga (UK)" width="150">
-            </div>
-            <h2 style="margin:0;color:#333;">Account Activation</h2>
-        </div>
-        
-        <div class="content">
-            <p>Hi {{ user.name }},</p>
+            Hi {{ user.name }},
             
-            <p>Please click the button below to activate your account:</p>
+           Please click the button below to activate your account:
             
-            <p style="text-align: center;">
-                <a href="http://{{ domain }}{% url 'activate' uidb64=uid token=token %}" class="button">
+
+   "http://{{ domain }}{% url 'activate' uidb64=uid token=token %}"
                     Activate Your Account
-                </a>
-            </p>
+
+            This link will expire in 24 hours.
             
-            <p class="expiry-note">This link will expire in 24 hours.</p>
+           If you did not register, please ignore this email.
             
-            <p>If you did not register, please ignore this email.</p>
-            
-            <p>Best regards,<br>
-            <strong>Umuturage Kw'isonga (UK)</strong></p>
-        </div>
+            Best regards,
+          Umuturage Kw'isonga (UK)
+
         
-        <div class="footer">
-            <p>Umuturage Kw'isonga (UK)<br>
-            Kigali, Rwanda<br>
-            Email: <a href="mailto:info@uk.rw">info@uk.rw</a> | 
-            Phone: +250 123 456 789</p>
+
+           Umuturage Kw'isonga (UK)
+            Kigali, Rwanda
+            Email: info@uk.rw
+            Phone: +250 123 456 789
             
-            <p>&copy; 2025 Umuturage Kw'isonga. All rights reserved.</p>
-        </div>
-    </div>
-</body>
-</html>
+          &copy; 2025 Umuturage Kw'isonga. All rights reserved.
